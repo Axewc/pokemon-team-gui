@@ -6,10 +6,11 @@ from typing import Optional
 from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QComboBox, QLineEdit, QPushButton, QLabel,
-    QScrollArea, QFrame, QMenu, QAction
+    QScrollArea, QFrame, QMenu, QAction, QDialog,
+    QApplication
 )
-from PyQt5.QtCore import Qt, QPoint, QMimeData, QDrag
-from PyQt5.QtGui import QPixmap, QPainter, QColor
+from PyQt5.QtCore import Qt, QPoint, QMimeData
+from PyQt5.QtGui import QPixmap, QPainter, QColor, QDrag
 
 from models import Team, Pokemon
 from pokeapi import PokeAPIClient
