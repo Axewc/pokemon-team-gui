@@ -130,4 +130,4 @@ def is_valid_drop_target(self, event):
 3. **Rendimiento**:
    - Límites de memoria
    - Optimización de recursos
-   - Manejo de concurrencia 
+   - Manejo de concurrencia

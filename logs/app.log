@@ -61,3 +61,26 @@
 2025-04-22 13:18:42,409 - gui - INFO - Equipo cargado
 2025-04-22 13:18:46,246 - gui - INFO - Pokemon Medicham actualizado
 2025-04-22 13:18:56,151 - gui - INFO - Pokemon Bulbasaur eliminado del equipo
+2025-04-22 13:25:59,087 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 13:26:03,071 - gui - INFO - Equipo cargado
+2025-04-22 13:26:04,788 - gui - INFO - Pokemon Medicham movido a posición 4
+2025-04-22 13:26:06,101 - gui - INFO - Pokemon Medicham movido a posición 5
+2025-04-22 13:26:07,268 - gui - INFO - Pokemon Audino movido a posición 5
+2025-04-22 13:26:08,117 - gui - INFO - Pokemon Audino movido a posición 4
+2025-04-22 13:26:33,298 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 13:26:37,409 - gui - INFO - Equipo cargado
+2025-04-22 13:28:59,215 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 13:29:09,671 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 13:29:13,709 - gui - INFO - Equipo cargado
+2025-04-22 13:29:22,589 - gui - INFO - Pokemon Medicham movido a posición 1
+2025-04-22 13:31:41,916 - gui - INFO - Equipo cargado
+2025-04-22 13:32:31,873 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 13:32:35,128 - gui - INFO - Equipo cargado
+2025-04-22 13:32:36,267 - gui - INFO - Pokemon Medicham movido a posición 4
+2025-04-22 13:32:38,059 - gui - INFO - Pokemon Audino movido a posición 3
+2025-04-22 13:32:39,401 - gui - INFO - Pokemon Medicham movido a posición 2
+2025-04-22 13:32:41,200 - gui - INFO - Pokemon Audino movido a posición 1
+2025-04-22 13:33:03,755 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 13:33:06,493 - gui - INFO - Equipo cargado
+2025-04-22 13:33:07,409 - gui - INFO - Pokemon Medicham movido a posición 4
+2025-04-22 13:33:08,329 - gui - INFO - Pokemon Audino movido a posición 4

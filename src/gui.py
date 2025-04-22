@@ -9,8 +9,8 @@ from PyQt5.QtWidgets import (
     QScrollArea, QFrame, QMenu, QAction, QDialog,
     QApplication, QMessageBox
 )
-from PyQt5.QtCore import Qt, QPoint, QMimeData, pyqtSignal
-from PyQt5.QtGui import QPixmap, QPainter, QColor, QDrag
+from PyQt5.QtCore import Qt, QPoint, QMimeData, pyqtSignal, QRect
+from PyQt5.QtGui import QPixmap, QPainter, QColor, QDrag, QPen
 
 from models import Team, Pokemon
 from pokeapi import PokeAPIClient
@@ -22,6 +22,8 @@ class PokemonWidget(QFrame):
     pokemon_dropped = pyqtSignal(object, int)  # (target_slot, pokemon_id)
     pokemon_edit_requested = pyqtSignal(object)  # (slot)
     pokemon_remove_requested = pyqtSignal(object)  # (slot)
+    pokemon_drag_started = pyqtSignal(object)  # (slot)
+    pokemon_drag_ended = pyqtSignal(object)  # (slot)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -31,6 +33,8 @@ class PokemonWidget(QFrame):
         self.sprite: Optional[QPixmap] = None
         self.setMinimumSize(100, 100)
         self.drag_start_position = QPoint()
+        self.is_dragging = False
+        self.is_drop_target = False
         
         # Botones de acción
         self.edit_button = QPushButton("✏️", self)
@@ -62,9 +66,15 @@ class PokemonWidget(QFrame):
         super().paintEvent(event)
         if self.pokemon and self.sprite:
             painter = QPainter(self)
+            
+            # Dibujar fondo si es objetivo de drop
+            if self.is_drop_target:
+                painter.fillRect(self.rect(), QColor(200, 255, 200, 50))
+            
             # Dibujar sprite
             sprite_rect = self.rect().adjusted(10, 10, -10, -30)
             painter.drawPixmap(sprite_rect, self.sprite)
+            
             # Dibujar apodo
             if self.pokemon.nickname:
                 painter.drawText(self.rect().adjusted(10, -20, -10, -10),
@@ -74,23 +84,13 @@ class PokemonWidget(QFrame):
             self.edit_button.move(self.width() - 25, 5)
             self.remove_button.move(self.width() - 25, 30)
 
-    def enterEvent(self, event):
-        """Muestra los botones al pasar el mouse por encima."""
-        if self.pokemon:
-            self.edit_button.show()
-            self.remove_button.show()
-
-    def leaveEvent(self, event):
-        """Oculta los botones al salir el mouse."""
-        if self.pokemon:
-            self.edit_button.hide()
-            self.remove_button.hide()
-
     def mousePressEvent(self, event):
         """Inicia el arrastre del Pokemon."""
         if event.button() == Qt.LeftButton and self.pokemon:
             self.drag_start_position = event.pos()
             self.setCursor(Qt.ClosedHandCursor)
+            self.is_dragging = True
+            self.pokemon_drag_started.emit(self)
 
     def mouseMoveEvent(self, event):
         """Maneja el arrastre del Pokemon."""
@@ -106,25 +106,58 @@ class PokemonWidget(QFrame):
         mime_data = QMimeData()
         mime_data.setText(str(self.pokemon.id))
         drag.setMimeData(mime_data)
-        drag.setPixmap(self.sprite)
+        
+        # Crear una imagen de arrastre con el sprite
+        drag_pixmap = QPixmap(self.sprite.size())
+        drag_pixmap.fill(Qt.transparent)
+        painter = QPainter(drag_pixmap)
+        painter.drawPixmap(0, 0, self.sprite)
+        painter.end()
+        
+        drag.setPixmap(drag_pixmap)
         drag.setHotSpot(event.pos() - self.rect().topLeft())
         drag.exec_(Qt.MoveAction)
 
     def mouseReleaseEvent(self, event):
         """Finaliza el arrastre del Pokemon."""
         self.setCursor(Qt.ArrowCursor)
+        if self.is_dragging:
+            self.is_dragging = False
+            self.pokemon_drag_ended.emit(self)
 
     def dragEnterEvent(self, event):
         """Acepta el evento de arrastre si contiene datos de Pokemon."""
         if event.mimeData().hasText():
+            self.is_drop_target = True
+            self.update()
             event.acceptProposedAction()
+
+    def dragLeaveEvent(self, event):
+        """Maneja el evento de salida del arrastre."""
+        self.is_drop_target = False
+        self.update()
 
     def dropEvent(self, event):
         """Maneja el evento de soltar un Pokemon."""
+        self.is_drop_target = False
+        self.update()
+        
         if event.mimeData().hasText():
             pokemon_id = int(event.mimeData().text())
             self.pokemon_dropped.emit(self, pokemon_id)
             event.acceptProposedAction()
+
+    def enterEvent(self, event):
+        """Muestra los botones al pasar el mouse por encima."""
+        if self.pokemon:
+            self.edit_button.show()
+            self.remove_button.show()
+
+    def leaveEvent(self, event):
+        """Oculta los botones al salir el mouse."""
+        if self.pokemon:
+            self.edit_button.hide()
+            self.remove_button.hide()
 
     def contextMenuEvent(self, event):
         """Muestra el menú contextual para editar o eliminar el Pokemon."""
@@ -203,6 +236,8 @@ class MainWindow(QMainWindow):
             slot.pokemon_dropped.connect(self.handle_pokemon_drop)
             slot.pokemon_edit_requested.connect(self.edit_pokemon)
             slot.pokemon_remove_requested.connect(self.remove_pokemon)
+            slot.pokemon_drag_started.connect(self.handle_drag_start)
+            slot.pokemon_drag_ended.connect(self.handle_drag_end)
             team_layout.addWidget(slot)
             self.team_slots.append(slot)
         
@@ -279,6 +314,14 @@ class MainWindow(QMainWindow):
         self.update_team_display()
         self.logger.info("Equipo cargado")
 
+    def handle_drag_start(self, slot: PokemonWidget):
+        """Maneja el inicio del arrastre de un Pokemon."""
+        self.logger.debug(f"Iniciando arrastre de {slot.pokemon.name}")
+
+    def handle_drag_end(self, slot: PokemonWidget):
+        """Maneja el fin del arrastre de un Pokemon."""
+        self.logger.debug(f"Finalizando arrastre de {slot.pokemon.name}")
+
     def handle_pokemon_drop(self, target_slot: PokemonWidget, pokemon_id: int):
         """Maneja el intercambio de Pokemon entre slots."""
         source_slot = None
@@ -300,6 +343,8 @@ class MainWindow(QMainWindow):
             target_index = self.team_slots.index(target_slot)
             self.team.pokemon[source_index], self.team.pokemon[target_index] = \
                 self.team.pokemon[target_index], self.team.pokemon[source_index]
+            
+            self.logger.info(f"Pokemon {source_pokemon.name} movido a posición {target_index + 1}")
 
     def remove_pokemon(self, slot: PokemonWidget):
         """Elimina un Pokemon del equipo."""
