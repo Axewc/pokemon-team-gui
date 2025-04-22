@@ -184,3 +184,13 @@
 2025-04-22 14:40:46,664 - gui - INFO - Pokemon Empoleon movido a posición 1
 2025-04-22 14:40:48,024 - gui - INFO - Pokemon Stantler movido a posición 4
 2025-04-22 14:40:49,069 - gui - INFO - Pokemon Marshtomp movido a posición 3
+2025-04-22 14:44:35,508 - gui - INFO - Pokemon Marshtomp eliminado del equipo
+2025-04-22 14:45:51,861 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:45:55,694 - gui - INFO - Equipo cargado
+2025-04-22 14:46:00,406 - gui - INFO - Equipo limpiado
+2025-04-22 14:46:11,989 - gui - INFO - Equipo cargado
+2025-04-22 14:46:19,024 - gui - INFO - Pokemon Bulbasaur añadido al equipo
+2025-04-22 14:46:19,029 - gui - WARNING - El equipo está lleno
+2025-04-22 14:46:23,425 - gui - INFO - Pokemon Bulbasaur eliminado del equipo
+2025-04-22 14:46:24,485 - gui - INFO - Pokemon Bulbasaur añadido al equipo
+2025-04-22 14:46:26,944 - gui - INFO - Equipo limpiado

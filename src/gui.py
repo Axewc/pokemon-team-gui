@@ -332,7 +332,7 @@ class MainWindow(QMainWindow):
                 pokemon.sprite_url = sprite_url
                 self.team.add_pokemon(pokemon)
                 self.update_team_display()
-                self.update_score(10)  # Añadir 10 puntos por cada Pokemon
+                self.logger.info(f"Pokemon {pokemon.name} añadido al equipo")
 
     def update_team_display(self):
         """Actualiza la visualización del equipo."""
@@ -488,8 +488,6 @@ class MainWindow(QMainWindow):
             )
             
             if reply == QMessageBox.Yes:
-                points_to_remove = len(self.team.pokemon) * 10
                 self.team.pokemon.clear()
                 self.update_team_display()
-                self.update_score(-points_to_remove)
                 self.logger.info("Equipo limpiado")
