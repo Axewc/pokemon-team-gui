@@ -84,3 +84,70 @@
 2025-04-22 13:33:06,493 - gui - INFO - Equipo cargado
 2025-04-22 13:33:07,409 - gui - INFO - Pokemon Medicham movido a posición 4
 2025-04-22 13:33:08,329 - gui - INFO - Pokemon Audino movido a posición 4
+2025-04-22 13:33:54,460 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 13:33:57,675 - gui - INFO - Equipo cargado
+2025-04-22 13:33:58,795 - gui - INFO - Pokemon Empoleon movido a posición 2
+2025-04-22 13:34:00,681 - gui - INFO - Pokemon Empoleon movido a posición 1
+2025-04-22 13:34:02,109 - gui - INFO - Pokemon Stantler movido a posición 3
+2025-04-22 13:34:03,312 - gui - INFO - Pokemon Marshtomp movido a posición 4
+2025-04-22 13:34:04,647 - gui - INFO - Pokemon Audino movido a posición 5
+2025-04-22 13:34:21,765 - gui - INFO - Pokemon Bulbasaur movido a posición 5
+2025-04-22 13:34:26,335 - gui - INFO - Pokemon Bulbasaur actualizado
+2025-04-22 13:34:30,318 - gui - INFO - Pokemon Bulbasaur eliminado del equipo
+2025-04-22 13:36:38,564 - gui - INFO - Pokemon Glimmet eliminado del equipo
+2025-04-22 14:00:20,526 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:00:32,496 - gui - INFO - Equipo cargado
+2025-04-22 14:01:41,703 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:01:53,733 - gui - INFO - Equipo cargado
+2025-04-22 14:02:03,641 - gui - INFO - Pokemon Empoleon movido a posición 2
+2025-04-22 14:02:04,568 - gui - INFO - Pokemon Empoleon movido a posición 3
+2025-04-22 14:02:05,504 - gui - INFO - Pokemon Empoleon movido a posición 4
+2025-04-22 14:02:06,403 - gui - INFO - Pokemon Empoleon movido a posición 5
+2025-04-22 14:02:07,325 - gui - INFO - Pokemon Empoleon movido a posición 6
+2025-04-22 14:02:08,499 - gui - INFO - Pokemon Empoleon movido a posición 6
+2025-04-22 14:02:09,972 - gui - INFO - Pokemon Empoleon movido a posición 1
+2025-04-22 14:02:12,489 - gui - INFO - Pokemon Stantler movido a posición 1
+2025-04-22 14:02:31,545 - gui - INFO - Equipo cargado
+2025-04-22 14:02:52,632 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:02:57,208 - gui - INFO - Equipo cargado
+2025-04-22 14:04:17,245 - gui - INFO - Pokemon Audino movido a posición 5
+2025-04-22 14:04:18,064 - gui - INFO - Pokemon Audino movido a posición 6
+2025-04-22 14:04:19,174 - gui - INFO - Pokemon Audino movido a posición 2
+2025-04-22 14:05:40,277 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:06:06,728 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:06:10,097 - gui - INFO - Equipo cargado
+2025-04-22 14:06:11,396 - gui - INFO - Pokemon Medicham movido a posición 6
+2025-04-22 14:06:12,245 - gui - INFO - Pokemon Medicham movido a posición 4
+2025-04-22 14:06:12,963 - gui - INFO - Pokemon Medicham movido a posición 3
+2025-04-22 14:06:13,696 - gui - INFO - Pokemon Medicham movido a posición 2
+2025-04-22 14:09:11,929 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:09:16,034 - gui - INFO - Equipo cargado
+2025-04-22 14:09:24,449 - gui - WARNING - El equipo está lleno
+2025-04-22 14:09:27,568 - gui - WARNING - El equipo está lleno
+2025-04-22 14:09:29,541 - gui - INFO - Pokemon Bulbasaur eliminado del equipo
+2025-04-22 14:13:36,557 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:13:42,688 - gui - INFO - Equipo cargado
+2025-04-22 14:14:01,174 - gui - WARNING - El equipo está lleno
+2025-04-22 14:14:38,896 - gui - INFO - Pokemon Bulbasaur eliminado del equipo
+2025-04-22 14:17:12,222 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:17:17,419 - gui - INFO - Equipo cargado
+2025-04-22 14:17:19,839 - gui - INFO - Equipo guardado
+2025-04-22 14:17:24,881 - gui - INFO - Pokemon Medicham movido a posición 1
+2025-04-22 14:17:26,174 - gui - INFO - Equipo guardado
+2025-04-22 14:17:29,073 - gui - INFO - Pokemon Marshtomp movido a posición 1
+2025-04-22 14:17:31,710 - gui - INFO - Equipo guardado
+2025-04-22 14:17:45,300 - gui - INFO - Pokemon Empoleon eliminado del equipo
+2025-04-22 14:17:58,096 - gui - INFO - Pokemon Bulbasaur eliminado del equipo
+2025-04-22 14:19:24,692 - gui - INFO - Equipo guardado
+2025-04-22 14:19:30,513 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:19:33,796 - gui - INFO - Equipo cargado
+2025-04-22 14:21:45,937 - gui - INFO - Equipo cargado
+2025-04-22 14:22:28,467 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:22:38,692 - gui - INFO - Equipo cargado
+2025-04-22 14:22:48,608 - gui - INFO - Equipo cargado
+2025-04-22 14:22:59,569 - gui - INFO - Equipo guardado
+2025-04-22 14:23:00,591 - gui - INFO - Equipo guardado
+2025-04-22 14:23:31,079 - gui - INFO - Equipo guardado
+2025-04-22 14:23:33,633 - gui - INFO - Equipo guardado
+2025-04-22 14:23:36,126 - gui - INFO - Equipo limpiado
+2025-04-22 14:23:38,244 - gui - INFO - Equipo cargado

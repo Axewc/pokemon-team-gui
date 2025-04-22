@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QComboBox, QLineEdit, QPushButton, QLabel,
     QScrollArea, QFrame, QMenu, QAction, QDialog,
-    QApplication, QMessageBox
+    QApplication, QMessageBox, QSizePolicy
 )
 from PyQt5.QtCore import Qt, QPoint, QMimeData, pyqtSignal, QRect
 from PyQt5.QtGui import QPixmap, QPainter, QColor, QDrag, QPen
@@ -15,6 +15,7 @@ from PyQt5.QtGui import QPixmap, QPainter, QColor, QDrag, QPen
 from models import Team, Pokemon
 from pokeapi import PokeAPIClient
 from assets import AssetManager
+from widgets import HeartCounter
 
 class PokemonWidget(QFrame):
     """Widget que representa un Pokemon en el equipo."""
@@ -71,16 +72,28 @@ class PokemonWidget(QFrame):
             if self.is_drop_target:
                 painter.fillRect(self.rect(), QColor(200, 255, 200, 50))
             
+            # Calcular el rectángulo manteniendo proporciones
+            widget_rect = self.rect().adjusted(10, 10, -10, -30)
+            sprite_rect = self.sprite.rect()
+            
+            # Calcular el tamaño manteniendo el aspect ratio
+            scaled_size = sprite_rect.size()
+            scaled_size.scale(widget_rect.size(), Qt.KeepAspectRatio)
+            
+            # Centrar el sprite
+            x = widget_rect.x() + (widget_rect.width() - scaled_size.width()) / 2
+            y = widget_rect.y() + (widget_rect.height() - scaled_size.height()) / 2
+            
             # Dibujar sprite
-            sprite_rect = self.rect().adjusted(10, 10, -10, -30)
-            painter.drawPixmap(sprite_rect, self.sprite)
+            target_rect = QRect(int(x), int(y), scaled_size.width(), scaled_size.height())
+            painter.drawPixmap(target_rect, self.sprite)
             
             # Dibujar apodo
             if self.pokemon.nickname:
-                painter.drawText(self.rect().adjusted(10, -20, -10, -10),
-                               Qt.AlignBottom, self.pokemon.nickname)
+                painter.drawText(self.rect().adjusted(10, -25, -10, -5),
+                               Qt.AlignBottom | Qt.AlignHCenter, self.pokemon.nickname)
             
-            # Posicionar botones
+            # Posicionar botones en la esquina superior derecha
             self.edit_button.move(self.width() - 25, 5)
             self.remove_button.move(self.width() - 25, 30)
 
@@ -185,6 +198,7 @@ class MainWindow(QMainWindow):
         self.api_client = api_client
         self.asset_manager = asset_manager
         self.logger = logging.getLogger(__name__)
+        self.score = 0
         
         self.setWindowTitle("Pokemon Team GUI")
         self.setup_ui()
@@ -198,10 +212,26 @@ class MainWindow(QMainWindow):
         
         # Layout principal
         layout = QVBoxLayout(central_widget)
+        layout.setSpacing(10)
         
-        # Área de selección
+        # Área de contador (compacta en la parte superior)
+        counter_widget = QWidget()
+        counter_widget.setFixedHeight(40)  # Altura fija para el área de contador
+        counter_layout = QHBoxLayout(counter_widget)
+        counter_layout.setContentsMargins(10, 5, 10, 5)
+        
+        # Añadir contador de corazones
+        self.heart_counter = HeartCounter()
+        counter_layout.addWidget(self.heart_counter)
+        counter_layout.addStretch()
+        
+        layout.addWidget(counter_widget)
+        
+        # Área de selección (compacta)
         selection_widget = QWidget()
+        selection_widget.setFixedHeight(50)  # Altura fija para el área de selección
         selection_layout = QHBoxLayout(selection_widget)
+        selection_layout.setContentsMargins(10, 5, 10, 5)
         
         # ComboBox para selección de Pokemon
         self.pokemon_combo = QComboBox()
@@ -224,14 +254,18 @@ class MainWindow(QMainWindow):
         
         layout.addWidget(selection_widget)
         
-        # Área de equipo
+        # Área de equipo (expansible y con tamaño mínimo)
         team_widget = QWidget()
+        team_widget.setMinimumSize(600, 150)  # Tamaño mínimo para el área de equipo
         team_layout = QHBoxLayout(team_widget)
+        team_layout.setSpacing(10)  # Más espacio entre slots
         
         # Crear widgets para cada slot del equipo
         self.team_slots = []
         for _ in range(6):
             slot = PokemonWidget()
+            slot.setMinimumSize(100, 100)  # Tamaño mínimo para cada slot
+            slot.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)  # Política de expansión
             # Conectar señales
             slot.pokemon_dropped.connect(self.handle_pokemon_drop)
             slot.pokemon_edit_requested.connect(self.edit_pokemon)
@@ -241,11 +275,13 @@ class MainWindow(QMainWindow):
             team_layout.addWidget(slot)
             self.team_slots.append(slot)
         
-        layout.addWidget(team_widget)
+        layout.addWidget(team_widget, stretch=1)  # Dar prioridad de expansión al área de equipo
         
-        # Botones de acción
+        # Botones de acción (compactos en la parte inferior)
         action_widget = QWidget()
+        action_widget.setFixedHeight(40)  # Altura fija para los botones
         action_layout = QHBoxLayout(action_widget)
+        action_layout.setContentsMargins(10, 5, 10, 5)
         
         save_button = QPushButton("Guardar Equipo")
         save_button.clicked.connect(self.save_team)
@@ -262,6 +298,11 @@ class MainWindow(QMainWindow):
         pokemon_list = self.api_client.get_pokemon_list()
         for pokemon in pokemon_list:
             self.pokemon_combo.addItem(pokemon['name'].title(), pokemon['url'])
+
+    def update_score(self, points: int):
+        """Actualiza el puntaje y el contador de corazones."""
+        self.score += points
+        self.heart_counter.set_count(self.score)
 
     def add_pokemon(self):
         """Añade un Pokemon al equipo."""
@@ -291,6 +332,7 @@ class MainWindow(QMainWindow):
                 pokemon.sprite_url = sprite_url
                 self.team.add_pokemon(pokemon)
                 self.update_team_display()
+                self.update_score(10)  # Añadir 10 puntos por cada Pokemon
 
     def update_team_display(self):
         """Actualiza la visualización del equipo."""
@@ -305,6 +347,10 @@ class MainWindow(QMainWindow):
 
     def save_team(self):
         """Guarda el equipo actual."""
+        # Guardar el estado actual de los corazones en el equipo
+        self.team.set_hearts(self.heart_counter.get_count())
+        self.team.set_total_hearts(self.heart_counter.max_hearts)
+        
         self.team.save_to_file("saves/team.yaml")
         self.logger.info("Equipo guardado")
 
@@ -312,6 +358,11 @@ class MainWindow(QMainWindow):
         """Carga un equipo guardado."""
         self.team = Team.load_from_file("saves/team.yaml")
         self.update_team_display()
+        
+        # Actualizar el contador de corazones
+        self.heart_counter.set_max_hearts(self.team.total_hearts)
+        self.heart_counter.set_count(self.team.current_hearts)
+        
         self.logger.info("Equipo cargado")
 
     def handle_drag_start(self, slot: PokemonWidget):
@@ -429,5 +480,16 @@ class MainWindow(QMainWindow):
 
     def clear_team(self):
         """Limpia todo el equipo."""
-        self.team.pokemon.clear()
-        self.update_team_display()
+        if self.team.pokemon:
+            reply = QMessageBox.question(
+                self, 'Confirmar limpieza',
+                '¿Estás seguro de que quieres eliminar todo el equipo?',
+                QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+            )
+            
+            if reply == QMessageBox.Yes:
+                points_to_remove = len(self.team.pokemon) * 10
+                self.team.pokemon.clear()
+                self.update_team_display()
+                self.update_score(-points_to_remove)
+                self.logger.info("Equipo limpiado")

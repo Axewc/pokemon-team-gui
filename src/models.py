@@ -37,6 +37,8 @@ class Team:
     def __init__(self):
         self.pokemon: List[Pokemon] = []
         self.max_size = 6
+        self.total_hearts = 20  # Número total de corazones
+        self.current_hearts = 20  # Corazones actuales
 
     def add_pokemon(self, pokemon: Pokemon) -> bool:
         """Añade un Pokemon al equipo si hay espacio."""
@@ -51,10 +53,23 @@ class Team:
             return self.pokemon.pop(index)
         return None
 
+    def set_hearts(self, count: int):
+        """Establece el número de corazones actual."""
+        self.current_hearts = max(0, min(count, self.total_hearts))
+
+    def set_total_hearts(self, total: int):
+        """Establece el número total de corazones."""
+        self.total_hearts = max(1, total)
+        self.current_hearts = min(self.current_hearts, self.total_hearts)
+
     def save_to_file(self, filename: str):
         """Guarda el equipo en un archivo YAML."""
         data = {
-            "pokemon": [p.to_dict() for p in self.pokemon]
+            "pokemon": [p.to_dict() for p in self.pokemon],
+            "hearts": {
+                "total": self.total_hearts,
+                "current": self.current_hearts
+            }
         }
         with open(filename, 'w', encoding='utf-8') as f:
             yaml.dump(data, f, allow_unicode=True)
@@ -66,7 +81,11 @@ class Team:
         if Path(filename).exists():
             with open(filename, 'r', encoding='utf-8') as f:
                 data = yaml.safe_load(f)
-                if data and "pokemon" in data:
-                    for p_data in data["pokemon"]:
-                        team.add_pokemon(Pokemon.from_dict(p_data))
+                if data:
+                    if "pokemon" in data:
+                        for p_data in data["pokemon"]:
+                            team.add_pokemon(Pokemon.from_dict(p_data))
+                    if "hearts" in data:
+                        team.set_total_hearts(data["hearts"]["total"])
+                        team.set_hearts(data["hearts"]["current"])
         return team
