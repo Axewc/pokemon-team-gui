@@ -1,5 +1,12 @@
 # 🌟 Pokemon Team GUI Tracker
 
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PyQt5](https://img.shields.io/badge/PyQt5-41CD52?style=for-the-badge&logo=qt&logoColor=white)
+![YAML](https://img.shields.io/badge/YAML-CB171E?style=for-the-badge&logo=yaml&logoColor=white)
+![REST API](https://img.shields.io/badge/REST_API-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+
 A lightweight and visually appealing desktop GUI application to manually create and manage your Pokemon team using dropdown menus. Built with Python, this app displays selected Pokemon and their nicknames with transparent PNG sprites like stickers on your desktop.
 
 ## 🚀 Features
@@ -10,6 +17,8 @@ A lightweight and visually appealing desktop GUI application to manually create 
 - ✅ Transparent window showing only the Pokemon sprites like stickers
 - ✅ Live team preview with drag-and-drop sprite positions (planned)
 - ✅ Save/load team configurations (planned)
+- ✅ Heart counter system for tracking team status
+- ✅ Responsive design that maintains sprite proportions
 
 ## 🚧 Tech Stack
 

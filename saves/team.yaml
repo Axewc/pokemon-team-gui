@@ -1,5 +1,5 @@
 hearts:
-  current: 20
+  current: 16
   total: 20
 pokemon:
 - id: 259
