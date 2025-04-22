@@ -1,0 +1,31 @@
+# Configuración de la aplicación
+app:
+  name: "Pokemon Team GUI"
+  version: "1.0.0"
+  window:
+    width: 800
+    height: 600
+    transparency: 0.9
+    always_on_top: true
+
+# Configuración de la API
+api:
+  base_url: "https://pokeapi.co/api/v2"
+  cache_timeout: 3600  # segundos
+  max_retries: 3
+
+# Configuración de sprites
+sprites:
+  size: 96
+  format: "png"
+  cache_dir: "assets/cache"
+
+# Configuración del equipo
+team:
+  max_pokemon: 6
+  default_nickname: ""
+
+# Configuración de archivos
+files:
+  team_save: "saves/team.yaml"
+  log_file: "logs/app.log"
