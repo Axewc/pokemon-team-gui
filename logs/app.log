@@ -194,3 +194,7 @@
 2025-04-22 14:46:23,425 - gui - INFO - Pokemon Bulbasaur eliminado del equipo
 2025-04-22 14:46:24,485 - gui - INFO - Pokemon Bulbasaur añadido al equipo
 2025-04-22 14:46:26,944 - gui - INFO - Equipo limpiado
+2025-04-22 15:23:54,836 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 15:24:00,251 - gui - INFO - Equipo cargado
+2025-04-22 15:24:26,263 - gui - INFO - Equipo guardado
+2025-04-22 15:37:04,737 - gui - INFO - Equipo guardado

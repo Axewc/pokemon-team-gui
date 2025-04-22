@@ -10,7 +10,7 @@ class HeartCounter(QWidget):
     def __init__(self, total_hearts: int = 20, parent=None):
         super().__init__(parent)
         self.layout = QHBoxLayout(self)
-        self.layout.setSpacing(2)
+        self.layout.setSpacing(5)
         self.layout.setContentsMargins(0, 0, 0, 0)
         
         # Cargar imágenes de corazones
@@ -31,6 +31,22 @@ class HeartCounter(QWidget):
         main_layout = QHBoxLayout(main_widget)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(5)
+        
+        # Contador numérico estilizado
+        self.number_label = QLabel(str(self.count))
+        self.number_label.setStyleSheet("""
+            QLabel {
+                font-size: 24px;
+                font-weight: bold;
+                color: #333333;
+                background-color: rgba(255, 255, 255, 0.8);
+                border: 2px solid #cccccc;
+                border-radius: 8px;
+                padding: 2px 8px;
+            }
+        """)
+        self.number_label.setMinimumWidth(60)
+        self.number_label.setAlignment(Qt.AlignCenter)
         
         # Botones de control
         minus_button = QPushButton("-")
@@ -55,6 +71,7 @@ class HeartCounter(QWidget):
         self.scroll_area.setWidget(self.hearts_widget)
         
         # Añadir widgets al layout principal
+        main_layout.addWidget(self.number_label)
         main_layout.addWidget(minus_button)
         main_layout.addWidget(self.scroll_area)
         main_layout.addWidget(plus_button)
@@ -70,7 +87,7 @@ class HeartCounter(QWidget):
             self.heart_labels.append(label)
             
         # Establecer tamaño máximo del widget
-        total_width = (self.heart_size.width() + 1) * total_hearts + 44  # +44 para los botones
+        total_width = (self.heart_size.width() + 1) * total_hearts + 44 + 70  # +44 para los botones, +70 para el número
         self.setMaximumWidth(total_width)
 
     def set_count(self, count: int):
@@ -80,6 +97,9 @@ class HeartCounter(QWidget):
         # Actualizar corazones
         for i, label in enumerate(self.heart_labels):
             label.setPixmap(self.heart_full if i < self.count else self.heart_empty)
+        
+        # Actualizar contador numérico
+        self.number_label.setText(str(self.count))
 
     def get_count(self) -> int:
         """Obtiene el valor actual del contador."""
