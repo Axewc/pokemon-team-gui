@@ -306,10 +306,13 @@ class MainWindow(QMainWindow):
         if not slot.pokemon:
             return
             
+        # Guardar el nombre antes de eliminar
+        pokemon_name = slot.pokemon.name
+            
         # Confirmar eliminación
         reply = QMessageBox.question(
             self, 'Confirmar eliminación',
-            f'¿Estás seguro de que quieres eliminar a {slot.pokemon.name}?',
+            f'¿Estás seguro de que quieres eliminar a {pokemon_name}?',
             QMessageBox.Yes | QMessageBox.No, QMessageBox.No
         )
         
@@ -317,7 +320,7 @@ class MainWindow(QMainWindow):
             index = self.team_slots.index(slot)
             self.team.pokemon.pop(index)
             self.update_team_display()
-            self.logger.info(f"Pokemon {slot.pokemon.name} eliminado del equipo")
+            self.logger.info(f"Pokemon {pokemon_name} eliminado del equipo")
 
     def edit_pokemon(self, slot: PokemonWidget):
         """Edita un Pokemon existente."""
