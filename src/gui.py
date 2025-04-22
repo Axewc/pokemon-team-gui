@@ -331,20 +331,44 @@ class MainWindow(QMainWindow):
                 break
         
         if source_slot and source_slot != target_slot:
-            # Intercambiar Pokemon
-            source_pokemon = source_slot.pokemon
-            target_pokemon = target_slot.pokemon
-            
-            source_slot.set_pokemon(target_pokemon, target_slot.sprite)
-            target_slot.set_pokemon(source_pokemon, source_slot.sprite)
-            
-            # Actualizar el equipo
             source_index = self.team_slots.index(source_slot)
             target_index = self.team_slots.index(target_slot)
-            self.team.pokemon[source_index], self.team.pokemon[target_index] = \
-                self.team.pokemon[target_index], self.team.pokemon[source_index]
+            
+            # Obtener los Pokemon y sprites
+            source_pokemon = source_slot.pokemon
+            source_sprite = source_slot.sprite
+            target_pokemon = target_slot.pokemon
+            target_sprite = target_slot.sprite
+            
+            # Actualizar el equipo
+            if target_pokemon:  # Si el slot destino tiene un Pokemon, intercambiar
+                self.team.pokemon[source_index], self.team.pokemon[target_index] = \
+                    self.team.pokemon[target_index], self.team.pokemon[source_index]
+                # Actualizar los slots
+                source_slot.set_pokemon(target_pokemon, target_sprite)
+                target_slot.set_pokemon(source_pokemon, source_sprite)
+            else:  # Si el slot destino está vacío, mover
+                if target_index >= len(self.team.pokemon):
+                    # Añadir al final
+                    self.team.pokemon.append(source_pokemon)
+                    # Eliminar de la posición original
+                    if source_index < target_index:
+                        self.team.pokemon.pop(source_index)
+                else:
+                    # Insertar en la posición correcta
+                    self.team.pokemon.insert(target_index, source_pokemon)
+                    # Eliminar de la posición original
+                    if source_index < target_index:
+                        self.team.pokemon.pop(source_index)
+                    else:
+                        self.team.pokemon.pop(source_index + 1)
+                
+                # Actualizar los slots
+                source_slot.set_pokemon(None, None)
+                target_slot.set_pokemon(source_pokemon, source_sprite)
             
             self.logger.info(f"Pokemon {source_pokemon.name} movido a posición {target_index + 1}")
+            self.update_team_display()
 
     def remove_pokemon(self, slot: PokemonWidget):
         """Elimina un Pokemon del equipo."""
