@@ -7,9 +7,9 @@ from PyQt5.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QComboBox, QLineEdit, QPushButton, QLabel,
     QScrollArea, QFrame, QMenu, QAction, QDialog,
-    QApplication
+    QApplication, QMessageBox
 )
-from PyQt5.QtCore import Qt, QPoint, QMimeData
+from PyQt5.QtCore import Qt, QPoint, QMimeData, pyqtSignal
 from PyQt5.QtGui import QPixmap, QPainter, QColor, QDrag
 
 from models import Team, Pokemon
@@ -18,6 +18,11 @@ from assets import AssetManager
 
 class PokemonWidget(QFrame):
     """Widget que representa un Pokemon en el equipo."""
+    # Señales
+    pokemon_dropped = pyqtSignal(object, int)  # (target_slot, pokemon_id)
+    pokemon_edit_requested = pyqtSignal(object)  # (slot)
+    pokemon_remove_requested = pyqtSignal(object)  # (slot)
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFrameStyle(QFrame.StyledPanel)
@@ -26,11 +31,30 @@ class PokemonWidget(QFrame):
         self.sprite: Optional[QPixmap] = None
         self.setMinimumSize(100, 100)
         self.drag_start_position = QPoint()
+        
+        # Botones de acción
+        self.edit_button = QPushButton("✏️", self)
+        self.edit_button.setFixedSize(20, 20)
+        self.edit_button.clicked.connect(lambda: self.pokemon_edit_requested.emit(self))
+        
+        self.remove_button = QPushButton("❌", self)
+        self.remove_button.setFixedSize(20, 20)
+        self.remove_button.clicked.connect(lambda: self.pokemon_remove_requested.emit(self))
+        
+        # Ocultar botones inicialmente
+        self.edit_button.hide()
+        self.remove_button.hide()
 
     def set_pokemon(self, pokemon: Pokemon, sprite: QPixmap):
         """Establece el Pokemon y su sprite."""
         self.pokemon = pokemon
         self.sprite = sprite
+        if pokemon:
+            self.edit_button.show()
+            self.remove_button.show()
+        else:
+            self.edit_button.hide()
+            self.remove_button.hide()
         self.update()
 
     def paintEvent(self, event):
@@ -44,7 +68,23 @@ class PokemonWidget(QFrame):
             # Dibujar apodo
             if self.pokemon.nickname:
                 painter.drawText(self.rect().adjusted(10, -20, -10, -10),
-                               Qt.AlignCenter, self.pokemon.nickname)
+                               Qt.AlignBottom, self.pokemon.nickname)
+            
+            # Posicionar botones
+            self.edit_button.move(self.width() - 25, 5)
+            self.remove_button.move(self.width() - 25, 30)
+
+    def enterEvent(self, event):
+        """Muestra los botones al pasar el mouse por encima."""
+        if self.pokemon:
+            self.edit_button.show()
+            self.remove_button.show()
+
+    def leaveEvent(self, event):
+        """Oculta los botones al salir el mouse."""
+        if self.pokemon:
+            self.edit_button.hide()
+            self.remove_button.hide()
 
     def mousePressEvent(self, event):
         """Inicia el arrastre del Pokemon."""
@@ -83,8 +123,7 @@ class PokemonWidget(QFrame):
         """Maneja el evento de soltar un Pokemon."""
         if event.mimeData().hasText():
             pokemon_id = int(event.mimeData().text())
-            # Notificar al padre para manejar el intercambio
-            self.parent().handle_pokemon_drop(self, pokemon_id)
+            self.pokemon_dropped.emit(self, pokemon_id)
             event.acceptProposedAction()
 
     def contextMenuEvent(self, event):
@@ -101,9 +140,9 @@ class PokemonWidget(QFrame):
         
         action = menu.exec_(event.globalPos())
         if action == edit_action:
-            self.parent().edit_pokemon(self)
+            self.pokemon_edit_requested.emit(self)
         elif action == delete_action:
-            self.parent().remove_pokemon(self)
+            self.pokemon_remove_requested.emit(self)
 
 class MainWindow(QMainWindow):
     """Ventana principal de la aplicación."""
@@ -160,6 +199,10 @@ class MainWindow(QMainWindow):
         self.team_slots = []
         for _ in range(6):
             slot = PokemonWidget()
+            # Conectar señales
+            slot.pokemon_dropped.connect(self.handle_pokemon_drop)
+            slot.pokemon_edit_requested.connect(self.edit_pokemon)
+            slot.pokemon_remove_requested.connect(self.remove_pokemon)
             team_layout.addWidget(slot)
             self.team_slots.append(slot)
         
@@ -258,6 +301,24 @@ class MainWindow(QMainWindow):
             self.team.pokemon[source_index], self.team.pokemon[target_index] = \
                 self.team.pokemon[target_index], self.team.pokemon[source_index]
 
+    def remove_pokemon(self, slot: PokemonWidget):
+        """Elimina un Pokemon del equipo."""
+        if not slot.pokemon:
+            return
+            
+        # Confirmar eliminación
+        reply = QMessageBox.question(
+            self, 'Confirmar eliminación',
+            f'¿Estás seguro de que quieres eliminar a {slot.pokemon.name}?',
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+        )
+        
+        if reply == QMessageBox.Yes:
+            index = self.team_slots.index(slot)
+            self.team.pokemon.pop(index)
+            self.update_team_display()
+            self.logger.info(f"Pokemon {slot.pokemon.name} eliminado del equipo")
+
     def edit_pokemon(self, slot: PokemonWidget):
         """Edita un Pokemon existente."""
         if not slot.pokemon:
@@ -268,7 +329,7 @@ class MainWindow(QMainWindow):
         
         # Crear diálogo de edición
         dialog = QDialog(self)
-        dialog.setWindowTitle("Editar Pokemon")
+        dialog.setWindowTitle(f"Editar {slot.pokemon.name}")
         layout = QVBoxLayout(dialog)
         
         # Campo para apodo
@@ -292,15 +353,7 @@ class MainWindow(QMainWindow):
             # Actualizar el Pokemon
             self.team.pokemon[index].nickname = nickname_edit.text()
             self.update_team_display()
-
-    def remove_pokemon(self, slot: PokemonWidget):
-        """Elimina un Pokemon del equipo."""
-        if not slot.pokemon:
-            return
-            
-        index = self.team_slots.index(slot)
-        self.team.pokemon.pop(index)
-        self.update_team_display()
+            self.logger.info(f"Pokemon {slot.pokemon.name} actualizado")
 
     def clear_team(self):
         """Limpia todo el equipo."""
