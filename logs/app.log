@@ -175,3 +175,12 @@
 2025-04-22 14:28:03,747 - gui - INFO - Pokemon Marshtomp movido a posición 2
 2025-04-22 14:28:04,436 - gui - INFO - Pokemon Medicham movido a posición 4
 2025-04-22 14:28:07,693 - gui - INFO - Equipo limpiado
+2025-04-22 14:37:12,066 - __main__ - INFO - Iniciando Pokemon Team GUI
+2025-04-22 14:40:28,713 - gui - INFO - Equipo limpiado
+2025-04-22 14:40:29,732 - gui - INFO - Equipo cargado
+2025-04-22 14:40:37,222 - gui - INFO - Equipo guardado
+2025-04-22 14:40:40,073 - gui - INFO - Equipo limpiado
+2025-04-22 14:40:41,008 - gui - INFO - Equipo cargado
+2025-04-22 14:40:46,664 - gui - INFO - Pokemon Empoleon movido a posición 1
+2025-04-22 14:40:48,024 - gui - INFO - Pokemon Stantler movido a posición 4
+2025-04-22 14:40:49,069 - gui - INFO - Pokemon Marshtomp movido a posición 3
