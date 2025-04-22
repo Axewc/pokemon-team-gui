@@ -24,55 +24,26 @@ wheels/
 venv/
 env/
 ENV/
-.env
-.venv
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-.qodo
 
-# Project specific
-logs/
-assets/cache/
-saves/
+# Testing
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# Logs
 *.log
 
-# PyQt
-*.ui.autosave
+# Local configuration
+.env
+.env.local
 
 # OS specific
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-desktop.ini
-
-# Distribution / packaging
-*.spec
-*.manifest
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg

@@ -6,6 +6,9 @@
 ![REST API](https://img.shields.io/badge/REST_API-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![Tests](https://img.shields.io/badge/Tests-25A162?style=for-the-badge&logo=testcafe&logoColor=white)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-2496ED?style=for-the-badge&logo=github-actions&logoColor=white)
+![Codecov](https://img.shields.io/badge/Codecov-F01F7A?style=for-the-badge&logo=codecov&logoColor=white)
 
 A lightweight and visually appealing desktop GUI application to manually create and manage your Pokemon team using dropdown menus. Built with Python, this app displays selected Pokemon and their nicknames with transparent PNG sprites like stickers on your desktop.
 
@@ -27,6 +30,9 @@ A lightweight and visually appealing desktop GUI application to manually create 
 - **PokeAPI** for dynamic Pokemon data
 - **Requests** for HTTP API calls
 - **YAML** for configuration
+- **pytest** for unit tests
+- **GitHub Actions** for CI/CD
+- **Codecov** for code coverage
 
 ## 📝 Project Structure
 
@@ -50,9 +56,18 @@ pokemon-team-gui/
 ├── assets/
 │   └── sprites/                 # Transparent PNG sprites
 │
-└── tests/
-    ├── test_gui.py
-    └── test_pokeapi.py
+├── tests/
+│   ├── test_gui.py
+│   ├── test_pokeapi.py
+│   └── test_models.py
+│
+├── docs/
+│   ├── testing.md
+│   └── ci-cd.md
+│
+└── .github/
+    └── workflows/
+        └── ci.yml              # CI/CD configuration
 ```
 
 ## 🙌 Getting Started
@@ -84,6 +99,30 @@ python src/main.py
 - [ ] Drag-and-drop positioning
 - [ ] Save/load team feature
 - [ ] Optional integration with GBA/3DS emulator memory
+
+## 🧪 Testing
+
+El proyecto incluye una suite completa de pruebas unitarias y de integración:
+
+```bash
+# Ejecutar todas las pruebas
+pytest tests/
+
+# Ejecutar con cobertura
+pytest tests/ --cov=src --cov-report=html
+```
+
+Ver la [documentación de pruebas](docs/testing.md) para más detalles.
+
+## 🔄 CI/CD
+
+El proyecto utiliza GitHub Actions para integración continua:
+
+- Pruebas automáticas en múltiples versiones de Python
+- Reportes de cobertura con Codecov
+- Validación de código en cada push y pull request
+
+Ver la [documentación de CI/CD](docs/ci-cd.md) para más detalles.
 
 ## 🙏 Contributing
 
