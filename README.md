@@ -12,27 +12,46 @@
 
 A lightweight and visually appealing desktop GUI application to manually create and manage your Pokemon team using dropdown menus. Built with Python, this app displays selected Pokemon and their nicknames with transparent PNG sprites like stickers on your desktop.
 
+## 🎮 Quick Start
+
+### For Users
+Download the latest release and run the executable:
+1. Get `Pokemon.Team.Tracker.zip` from the [releases page](https://github.com/yourusername/pokemon-team-gui/releases)
+2. Extract and run `Pokemon Team Tracker.exe`
+3. Check the [User Guide](docs/user_guide.md) for detailed instructions
+
+### For Developers
+Clone and set up the development environment:
+```bash
+git clone https://github.com/yourusername/pokemon-team-gui.git
+cd pokemon-team-gui
+pip install -r requirements.txt
+python src/main.py
+```
+
 ## 🚀 Features
 
 - ✅ Manual selection of up to 6 Pokemon for your team
 - ✅ Dropdown menus with Pokemon names powered by [PokeAPI](https://pokeapi.co/)
 - ✅ Custom nickname input for each Pokemon
 - ✅ Transparent window showing only the Pokemon sprites like stickers
-- ✅ Live team preview with drag-and-drop sprite positions (planned)
-- ✅ Save/load team configurations (planned)
+- ✅ Live team preview with drag-and-drop sprite positions
+- ✅ Save/load team configurations
 - ✅ Heart counter system for tracking team status
 - ✅ Responsive design that maintains sprite proportions
+- ✅ Standalone executable for easy distribution
 
 ## 🚧 Tech Stack
 
-- **Python 3.8+**
-- **PyQt5** or **Tkinter** for GUI (PyQt preferred)
-- **PokeAPI** for dynamic Pokemon data
-- **Requests** for HTTP API calls
-- **YAML** for configuration
-- **pytest** for unit tests
-- **GitHub Actions** for CI/CD
-- **Codecov** for code coverage
+- **Python 3.8+** - Base language
+- **PyQt5** - GUI framework
+- **PokeAPI** - Pokemon data source
+- **Requests** - HTTP client
+- **YAML** - Configuration
+- **pytest** - Testing
+- **GitHub Actions** - CI/CD
+- **Codecov** - Code coverage
+- **PyInstaller** - Executable creation
 
 ## 📝 Project Structure
 
@@ -49,12 +68,14 @@ pokemon-team-gui/
 │   ├── __init__.py
 │   ├── main.py                  # Entry point
 │   ├── gui.py                   # GUI logic
-│   ├── pokeapi.py               # PokeAPI handling
-│   ├── models.py                # Pokemon/team models
-│   └── assets.py                # Asset management (sprites)
+│   ├── pokeapi.py              # PokeAPI handling
+│   ├── models.py               # Pokemon/team models
+│   └── assets.py               # Asset management
 │
 ├── assets/
-│   └── sprites/                 # Transparent PNG sprites
+│   ├── sprites/                # Pokemon sprites
+│   ├── icon.ico               # App icon
+│   └── icon.png               # App icon (PNG)
 │
 ├── tests/
 │   ├── test_gui.py
@@ -62,73 +83,68 @@ pokemon-team-gui/
 │   └── test_models.py
 │
 ├── docs/
-│   ├── testing.md
-│   └── ci-cd.md
+│   ├── testing.md             # Testing documentation
+│   ├── ci-cd.md              # CI/CD documentation
+│   └── user_guide.md         # User manual
 │
-└── .github/
-    └── workflows/
-        └── ci.yml              # CI/CD configuration
+└── scripts/
+    └── create_icon.py        # Icon generation script
 ```
 
-## 🙌 Getting Started
+## 📚 Documentation
 
-### Requirements
-
-- Python 3.8 or newer
-- pip
-
-### Installation
-
-```bash
-git clone https://github.com/yourname/pokemon-team-gui.git
-cd pokemon-team-gui
-pip install -r requirements.txt
-```
-
-### Run the App
-
-```bash
-python src/main.py
-```
-
-## 🔍 Roadmap
-
-- [x] Initial GUI layout with dropdowns
-- [x] Nickname field for each Pokemon
-- [x] Transparent sticker-style display
-- [ ] Drag-and-drop positioning
-- [ ] Save/load team feature
-- [ ] Optional integration with GBA/3DS emulator memory
+- [User Guide](docs/user_guide.md) - For end users
+- [Testing Documentation](docs/testing.md) - Test coverage and procedures
+- [CI/CD Documentation](docs/ci-cd.md) - Continuous Integration setup
+- [Architecture](ARCHITECTURE.md) - System design and patterns
 
 ## 🧪 Testing
 
-El proyecto incluye una suite completa de pruebas unitarias y de integración:
-
+Run the test suite:
 ```bash
-# Ejecutar todas las pruebas
 pytest tests/
+```
 
-# Ejecutar con cobertura
+Generate coverage report:
+```bash
 pytest tests/ --cov=src --cov-report=html
 ```
 
-Ver la [documentación de pruebas](docs/testing.md) para más detalles.
+## 📦 Building
+
+Create a standalone executable:
+```bash
+# Install requirements
+pip install -r requirements.txt
+
+# Generate icon (if needed)
+python scripts/create_icon.py
+
+# Build executable
+pyinstaller pokemon_team_tracker.spec
+```
+
+The executable will be created in `dist/Pokemon Team Tracker/`.
 
 ## 🔄 CI/CD
 
-El proyecto utiliza GitHub Actions para integración continua:
+The project uses GitHub Actions for:
+- Automated testing
+- Code coverage reporting
+- Build verification
+- Release automation
 
-- Pruebas automáticas en múltiples versiones de Python
-- Reportes de cobertura con Codecov
-- Validación de código en cada push y pull request
+See [CI/CD documentation](docs/ci-cd.md) for details.
 
-Ver la [documentación de CI/CD](docs/ci-cd.md) para más detalles.
+## 🤝 Contributing
 
-## 🙏 Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
-
-## ✅ License
+## 📄 License
 
 [MIT](LICENSE)
 

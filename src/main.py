@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIcon
 
 from gui import MainWindow
 from models import Team
@@ -40,6 +41,10 @@ def main():
     # Inicializar la aplicación Qt
     app = QApplication(sys.argv)
     app.setStyle("Fusion")  # Estilo moderno y consistente
+    
+    # Establecer el ícono de la aplicación
+    app_icon = QIcon("assets/icon.ico")
+    app.setWindowIcon(app_icon)
 
     # Inicializar componentes principales
     api_client = PokeAPIClient()
@@ -48,6 +53,7 @@ def main():
 
     # Crear y mostrar la ventana principal
     window = MainWindow(team, api_client, asset_manager)
+    window.setWindowIcon(app_icon)  # Establecer el ícono en la ventana principal
     window.show()
 
     # Ejecutar la aplicación
