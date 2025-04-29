@@ -4,6 +4,8 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QScrollArea, QPushButton
 from PyQt5.QtGui import QPixmap, QPainter
 from PyQt5.QtCore import Qt, QSize
+import os
+from pathlib import Path
 
 class HeartCounter(QWidget):
     """Widget personalizado para mostrar un contador con corazones."""
@@ -14,9 +16,15 @@ class HeartCounter(QWidget):
         self.layout.setContentsMargins(0, 0, 0, 0)
         
         # Cargar imágenes de corazones
-        self.heart_full = QPixmap("assets/sprites/vida.png")
-        self.heart_empty = QPixmap("assets/sprites/vidant.png")
-        
+        base_dir = Path(__file__).resolve().parent.parent  # Subir un nivel desde src
+        heart_full_path = base_dir / "assets" / "sprites" / "vida.png"
+        heart_empty_path = base_dir / "assets" / "sprites" / "vidant.png"
+        print(f"Heart full path: {heart_full_path}, Heart empty path: {heart_empty_path}")
+
+        self.heart_full = QPixmap(str(heart_full_path))
+        self.heart_empty = QPixmap(str(heart_empty_path))
+        print(f"Heart full loaded: {not self.heart_full.isNull()}, Heart empty loaded: {not self.heart_empty.isNull()}")
+
         # Escalar imágenes si es necesario (más pequeñas que los sprites)
         self.heart_size = QSize(16, 16)  # Tamaño reducido
         self.heart_full = self.heart_full.scaled(self.heart_size, Qt.KeepAspectRatio, Qt.SmoothTransformation)
@@ -139,4 +147,4 @@ class HeartCounter(QWidget):
     def increase_hearts(self):
         """Aumenta el contador de corazones en uno."""
         if self.count < self.max_hearts:
-            self.set_count(self.count + 1) 
+            self.set_count(self.count + 1)

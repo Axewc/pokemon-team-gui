@@ -1,0 +1,40 @@
+hearts:
+  current: 15
+  total: 20
+pokemon:
+- id: 234
+  name: Stantler
+  nickname: Pepinos
+  position_x: 0
+  position_y: 0
+  sprite_url: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/234.png
+- id: 308
+  name: Medicham
+  nickname: Ms Relax
+  position_x: 0
+  position_y: 0
+  sprite_url: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/308.png
+- id: 395
+  name: Empoleon
+  nickname: Pirinola
+  position_x: 0
+  position_y: 0
+  sprite_url: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/395.png
+- id: 655
+  name: Delphox
+  nickname: Burst
+  position_x: 0
+  position_y: 0
+  sprite_url: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/655.png
+- id: 589
+  name: Escavalier
+  nickname: Br3ndon
+  position_x: 0
+  position_y: 0
+  sprite_url: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/589.png
+- id: 186
+  name: Politoed
+  nickname: Padilla
+  position_x: 0
+  position_y: 0
+  sprite_url: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/186.png

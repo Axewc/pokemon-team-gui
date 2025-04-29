@@ -35,21 +35,25 @@ def main():
     logger.info("Iniciando Pokemon Team GUI")
 
     # Crear directorios necesarios
-    Path("assets/cache").mkdir(parents=True, exist_ok=True)
-    Path("saves").mkdir(exist_ok=True)
+    base_dir = Path(__file__).resolve().parent.parent  # Subir un nivel desde src
+    assets_dir = base_dir / "assets" / "cache"
+    saves_dir = base_dir / "saves"
+    assets_dir.mkdir(parents=True, exist_ok=True)
+    saves_dir.mkdir(exist_ok=True)
 
     # Inicializar la aplicación Qt
     app = QApplication(sys.argv)
     app.setStyle("Fusion")  # Estilo moderno y consistente
     
     # Establecer el ícono de la aplicación
-    app_icon = QIcon("assets/icon.ico")
+    app_icon = QIcon(str(base_dir / "assets" / "icon.ico"))
     app.setWindowIcon(app_icon)
 
     # Inicializar componentes principales
     api_client = PokeAPIClient()
     asset_manager = AssetManager()
-    team = Team()
+    team_file = saves_dir / "team.yaml"
+    team = Team.load_from_file(str(team_file))
 
     # Crear y mostrar la ventana principal
     window = MainWindow(team, api_client, asset_manager)
